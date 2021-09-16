@@ -10,6 +10,10 @@
       flex: 1 1 auto;
     }
 
+    &__calendar-text {
+      text-transform: uppercase;
+    }
+
     &__previous-button,
     &__next-button {
       width: 40px;

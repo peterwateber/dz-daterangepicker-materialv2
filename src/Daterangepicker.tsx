@@ -111,6 +111,8 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
     const isSame = DateCompare.isSame(date, day.hoveredDate);
     if (isSame) return;
 
+    if (this.props.disableFuture && date.isAfter(new Date())) return;
+
     this.setState({
       ...this.state,
       day: {
@@ -269,7 +271,9 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
   dayView() {
     const { date, day } = this.state;
     const weeks = this.getMonthWeeks(date.year(), date.month());
-    const weekDays = weekdaysMin(this.state.startWeek);
+    const weekDays = weekdaysMin(this.state.startWeek, this.props.shortenWeekDays);
+    const monthFormat = this.props.calendarMonthFormat ? this.props.calendarMonthFormat : "MMMM";
+    const calendarTextDisplay = `${date.format(monthFormat)} ${date.year()}`;
 
     const changeView = () => this.changeView(Views.year);
 
@@ -279,7 +283,7 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
           goToPrevious={this.goToPreviousMonths}
           goToNext={this.goToNextMonths}
           changeView={changeView}
-          btnText={`${date.format("MMM")} ${date.year()}`}
+          btnText={calendarTextDisplay}
           open={false}
         />
         <Content>
@@ -290,6 +294,7 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
             weeks={weeks}
             start={day.start}
             end={day.end}
+            disableFuture={this.props.disableFuture}
           />
         </Content>
       </React.Fragment>

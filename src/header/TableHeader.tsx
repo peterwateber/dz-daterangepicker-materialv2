@@ -6,10 +6,10 @@ interface TableHeaderProps {
 
 function TableHeader(props:TableHeaderProps) {
   return (
-    <thead className="dz-calendar__table__header">
+    <thead className="cdz-calendar__table__header">
       <tr>
         {props.weekDays && props.weekDays.map((day:string, index:number) => (
-          <th key={index}>{day.charAt(0)}</th>
+          <th key={index}>{day}</th>
         ))}
       </tr>
       <tr>

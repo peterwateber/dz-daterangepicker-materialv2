@@ -8,6 +8,7 @@ interface DayProps {
     weeks: Day[][]
     start?: Moment
     end?: Moment
+    disableFuture?: boolean
 }
 
 const Day = (props: DayProps) =>{
@@ -31,6 +32,11 @@ const Day = (props: DayProps) =>{
       return className.join(" ");
     }
 
+    if (props.disableFuture && day.date.isAfter(new Date())) {
+      className.push(`${mainClass}--disabled`);
+      return className.join(" ");
+    }
+
     if (day.isHovered) {
       className.push(`${mainClass}--hover`);
     }
@@ -49,6 +55,7 @@ const Day = (props: DayProps) =>{
   };
 
   const getDayProps = (day: Day) => {
+    if (props.disableFuture && day.date.isAfter(new Date())) return {};
     if (day.isInMonth && !day.isDisabled) {
       return  {
         onMouseUp: () => props.onClickDay(day.date),

@@ -22,10 +22,6 @@ function Header(props:HeaderProps) {
   return (
     <div className="dz-calendar-header">
       <div className="header__content">
-        <Button onClick={props.changeView} endIcon={btnIcon()}>
-          {props.btnText}
-        </Button>
-        <div className="header__content__spacer" />
         <IconButton
           className="header__content__previous-button"
           size="small"
@@ -33,6 +29,11 @@ function Header(props:HeaderProps) {
         >
           <ArrowBackIosIcon fontSize="inherit" />
         </IconButton>
+        <Button onClick={props.changeView} endIcon={btnIcon()}>
+          <span className="header__content__calendar-text">
+            {props.btnText}
+          </span>
+        </Button>
         <IconButton
           className="header__content__next-button"
           size="small"

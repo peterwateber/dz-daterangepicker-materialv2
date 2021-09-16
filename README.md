@@ -2,20 +2,23 @@
 
 [![NPM](https://img.shields.io/npm/v/dz-daterangepicker-material.svg)](https://www.npmjs.com/package/dz-daterangepicker-material) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-## Dz Daterangepicker [Material](https://material.io/design/introduction/).
+## V2 of Dz Daterangepicker [Material](https://material.io/design/introduction/).
 
 This [React](https://reactjs.org/) date range picker component creates a dropdown menu from which a user can select a range of dates.It leverages moment.js to handle date manipulation and parsing. I created it while building my personal projects where i used [Material UI](https://material-ui.com) and  needed a way to select date ranges.
 
 ## Install
 
 ```bash
-npm install --save dz-daterangepicker-material
+npm i --s dz-daterangepicker-materialv2
 ```
 
 ## Demo
 
 Minimal demo page is included in sample directory.
 
+
+
+#### Note: This is the old demo version. Some new features are not here
 [Online demo](https://codesandbox.io/s/sad-pine-17zyi) is also available!
 
 ## Day, Year, Month view selection
@@ -25,9 +28,9 @@ Minimal demo page is included in sample directory.
 
 ```jsx
 import React from 'react'
-import DateRangePicker from "dz-daterangepicker-material";
+import DateRangePicker from "dz-daterangepicker-materialv2";
 
-import "dz-daterangepicker-material/dist/index.css";
+import "dz-daterangepicker-materialv2/dist/index.css";
 
 function Example(){
     const [date, setDate] = React.useState({
@@ -70,7 +73,9 @@ function Example(){
 |popoverProps|https://material-ui.com/api/popover|{}|Obj|
 |minDate|min date allowed in range|null|Moment or Date|
 |maxDate|max date allowed in range|null|Moment or Date|
-|TODO|TODO|TODO|TODO|
+|disableFuture|disable future dates|false|Boolean|
+|shortenWeekDays|if set to `true` will use short weekday e.g. "Mon"|false|Boolean|
+|calendarMonthFormat|will change the month formatting|"MMMM"|`"M","Mo","MM","MMM","MMMM"`|
 
 ## Donation :beer: :beer: :beer:
 

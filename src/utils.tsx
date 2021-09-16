@@ -98,8 +98,8 @@ function getMonthWeeks(year:number, month:number, weekStart: weekStartCopy) {
   return getRange(startCalendar, endCalendar, "day");
 }
 
-function weekdaysMin(weekStart: weekStart) {
-  const weekDays = moment.weekdaysMin(false);
+function weekdaysMin(weekStart: weekStart, shortenWeekDays: boolean = false) {
+  const weekDays = !shortenWeekDays ? moment.weekdays(false) : moment.weekdaysShort(false);
 
   if (weekStart === "monday") {
     const day = weekDays.shift()

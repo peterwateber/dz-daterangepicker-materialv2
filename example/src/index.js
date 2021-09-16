@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import DateRangePicker from "dz-daterangepicker-material";
 
-import "moment/locale/de";
 import "dz-daterangepicker-material/dist/index.css";
 
 const myStyle = {
@@ -21,10 +20,7 @@ const myStyle = {
 };
 
 function DateRangePickerView(){
-    const [date, setDate] = React.useState({
-      startDate: new Date(2020, 4, 1),
-      endDate: new Date(2020, 4, 10)
-    })
+    const [date, setDate] = React.useState({})
 
     const onChange = (start, end) => {
         setDate({
@@ -43,6 +39,8 @@ function DateRangePickerView(){
          </h4>
 
          <DateRangePicker
+           disableFuture
+           shortenWeekDays
            startDate={date.startDate}
            endDate={date.endDate}
            datePicker={false}

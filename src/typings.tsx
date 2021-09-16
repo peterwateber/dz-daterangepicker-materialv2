@@ -19,6 +19,9 @@ interface DaterangepickerProps {
     minDate?: Moment | Date
     maxDate?: Moment | Date
     wrapperProps: React.HTMLAttributes<HTMLDivElement>
+    disableFuture?: boolean
+    shortenWeekDays?: boolean
+    calendarMonthFormat?: "M" | "Mo" | "MM" | "MMM" | "MMMM"
 }
 
 interface DaterangepickerState {
