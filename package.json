@@ -1,11 +1,11 @@
 {
   "name": "dz-daterangepicker-materialv2",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "V2 - React date range picker (with material design theme)",
   "author": "peterwateber",
   "license": "MIT",
   "repository": "https://github.com/peterwateber/dz-daterangepicker-materialv2",
-  "main": "dist/index.js",
+  "main": "dist/index",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
   "types": "src/typings.tsx",
