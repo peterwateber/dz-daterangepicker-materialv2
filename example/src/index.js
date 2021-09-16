@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import DateRangePicker from "dz-daterangepicker-material";
+import DateRangePicker from "dz-daterangepicker-materialv2";
 
-import "dz-daterangepicker-material/dist/index.css";
+import "dz-daterangepicker-materialv2/dist/index.css";
 
 const myStyle = {
     wrap:{

@@ -1,10 +1,10 @@
 {
   "name": "test-dz-daterangepicker-material",
-  "homepage": "dz-daterangepicker-material",
+  "homepage": "dz-daterangepicker-materialv2",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "dz-daterangepicker-material": "file:..",
+    "dz-daterangepicker-materialv2": "file:..",
     "node-sass": "file:../node_modules/node-sass",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
