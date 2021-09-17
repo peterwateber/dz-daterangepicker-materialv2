@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/dz-daterangepicker-materialv2/static/css/main.748229e6.chunk.css",
+    "main.js": "/dz-daterangepicker-materialv2/static/js/main.322b72f8.chunk.js",
+    "main.js.map": "/dz-daterangepicker-materialv2/static/js/main.322b72f8.chunk.js.map",
+    "runtime-main.js": "/dz-daterangepicker-materialv2/static/js/runtime-main.e9ed602b.js",
+    "runtime-main.js.map": "/dz-daterangepicker-materialv2/static/js/runtime-main.e9ed602b.js.map",
+    "static/js/2.6dc7639a.chunk.js": "/dz-daterangepicker-materialv2/static/js/2.6dc7639a.chunk.js",
+    "static/js/2.6dc7639a.chunk.js.map": "/dz-daterangepicker-materialv2/static/js/2.6dc7639a.chunk.js.map",
+    "index.html": "/dz-daterangepicker-materialv2/index.html",
+    "precache-manifest.1f5a0ca1459a1d90c20acb0090cfdf21.js": "/dz-daterangepicker-materialv2/precache-manifest.1f5a0ca1459a1d90c20acb0090cfdf21.js",
+    "service-worker.js": "/dz-daterangepicker-materialv2/service-worker.js",
+    "static/css/main.748229e6.chunk.css.map": "/dz-daterangepicker-materialv2/static/css/main.748229e6.chunk.css.map",
+    "static/js/2.6dc7639a.chunk.js.LICENSE.txt": "/dz-daterangepicker-materialv2/static/js/2.6dc7639a.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e9ed602b.js",
+    "static/js/2.6dc7639a.chunk.js",
+    "static/css/main.748229e6.chunk.css",
+    "static/js/main.322b72f8.chunk.js"
+  ]
+}
