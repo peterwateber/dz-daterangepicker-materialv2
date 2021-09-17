@@ -76,6 +76,7 @@ function Example(){
 |disableFuture|disable future dates|false|Boolean|
 |shortenWeekDays|if set to `true` will use short weekday e.g. "Mon"|false|Boolean|
 |calendarMonthFormat|will change the month formatting|"MMMM"|`"M","Mo","MM","MMM","MMMM"`|
+|showOnlyDaysInMonths|will display only days applicable for the current month|false|Boolean
 
 ## Donation :beer: :beer: :beer:
 

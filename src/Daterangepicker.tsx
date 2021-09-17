@@ -294,6 +294,7 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
             weeks={weeks}
             start={day.start}
             end={day.end}
+            showOnlyDaysInMonths={this.props.showOnlyDaysInMonths}
             disableFuture={this.props.disableFuture}
           />
         </Content>

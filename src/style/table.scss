@@ -40,6 +40,10 @@
       padding-top: 7.14286%;
       padding-bottom: 7.14286%;
 
+      &--hidden {
+        opacity: 0;
+      }
+
       &--disabled & {
         &__content {
           opacity: 0.6;

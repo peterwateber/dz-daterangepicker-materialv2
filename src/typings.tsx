@@ -18,7 +18,8 @@ interface DaterangepickerProps {
     locale: string
     minDate?: Moment | Date
     maxDate?: Moment | Date
-    wrapperProps: React.HTMLAttributes<HTMLDivElement>
+    wrapperProps?: React.HTMLAttributes<HTMLDivElement>
+    showOnlyDaysInMonths?: boolean
     disableFuture?: boolean
     shortenWeekDays?: boolean
     calendarMonthFormat?: "M" | "Mo" | "MM" | "MMM" | "MMMM"

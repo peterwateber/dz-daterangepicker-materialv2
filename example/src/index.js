@@ -39,6 +39,7 @@ function DateRangePickerView(){
          </h4>
 
          <DateRangePicker
+           showOnlyDaysInMonths
            disableFuture
            shortenWeekDays
            startDate={date.startDate}

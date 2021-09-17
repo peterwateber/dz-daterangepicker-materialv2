@@ -9,6 +9,7 @@ interface DayProps {
     start?: Moment
     end?: Moment
     disableFuture?: boolean
+    showOnlyDaysInMonths?: boolean
 }
 
 const Day = (props: DayProps) =>{
@@ -28,6 +29,9 @@ const Day = (props: DayProps) =>{
     }
 
     if (!day.isInMonth || day.isDisabled) {
+      if (props.showOnlyDaysInMonths) {
+        className.push(`${mainClass}--hidden`);  
+      }
       className.push(`${mainClass}--disabled`);
       return className.join(" ");
     }

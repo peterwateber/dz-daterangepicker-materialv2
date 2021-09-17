@@ -5,10 +5,10 @@
   "author": "peterwateber",
   "license": "MIT",
   "repository": "https://github.com/peterwateber/dz-daterangepicker-materialv2",
-  "main": "dist/index",
+  "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",
-  "types": "src/typings.tsx",
+  "types": "dist/index.d.ts",
   "engines": {
     "node": ">=10"
   },

@@ -63,9 +63,6 @@
 .dz-calendar__table__body__cell--disabled .dz-calendar__table__body__cell__content {
   opacity: 0.6;
 }
-.dz-calendar__table__body__cell--hidden {
-  opacity: 0;
-}
 .dz-calendar__table__body__cell--disabled {
   cursor: default;
 }
@@ -106,5 +103,3 @@
   line-height: 1;
   border-radius: 999px;
 }
-
-/*# sourceMappingURL=main.css.map */
