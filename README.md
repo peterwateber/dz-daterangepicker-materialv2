@@ -77,6 +77,8 @@ function Example(){
 |shortenWeekDays|if set to `true` will use short weekday e.g. "Mon"|false|Boolean|
 |calendarMonthFormat|will change the month formatting|"MMMM"|`"M","Mo","MM","MMM","MMMM"`|
 |showOnlyDaysInMonths|will display only days applicable for the current month|false|Boolean
+|minYear|will display the min year in the calendar. `maxYear` should be present|''|number
+|maxYear|will display the max year in the calendar. `minYear` should be present|''|number
 
 ## Donation :beer: :beer: :beer:
 

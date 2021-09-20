@@ -473,6 +473,7 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
         start: date
       })
     };
+    var newState = {};
 
     if (datePicker) {
       this.setState({
@@ -482,22 +483,24 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
         }
       });
     } else if (day.start === undefined && day.end === undefined) {
-      this.setState(startState);
+      newState = startState;
     } else if (day.start && day.end === undefined && date.isBefore(day.start)) {
-      this.setState(startState);
+      newState = startState;
     } else if (day.start && day.end === undefined) {
-      this.setState({
+      newState = {
         day: _extends({}, day, {
           end: date
         })
-      });
+      };
     } else if (day.start && day.end) {
-      this.setState(_extends({}, startState, {
+      newState = _extends({}, startState, {
         day: _extends({}, startState.day, {
           end: undefined
         })
-      }));
+      });
     }
+
+    return newState;
   };
 
   _proto.onDateMouseOver = function onDateMouseOver(date) {
@@ -543,7 +546,7 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
         num = _this$state$year.num,
         focused = _this$state$year.focused,
         page = _this$state$year.page;
-    var currentYear = currentDate.year();
+    var currentYear = Boolean(this.props.maxYear) ? currentDate.set("year", this.props.maxYear || 0).year() : currentDate.year();
     var targetYear = date.year();
     var start = currentYear - 4;
 
@@ -553,7 +556,11 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
       start = start - -1 * page * num;
     }
 
-    var end = start + num;
+    if (this.props.maxYear && this.props.minimumYear) {
+      start = this.props.minimumYear;
+    }
+
+    var end = this.props.maxYear && this.props.minimumYear ? this.props.maxYear + 1 : start + num;
     var years = [];
 
     for (start; start < end; start++) {
@@ -651,11 +658,14 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
     });
   };
 
-  _proto.componentDidUpdate = function componentDidUpdate(_prevProps, prevState) {
-    var day = this.state.day;
-
-    if (day.start && day.end && (day.start !== prevState.day.start || day.end !== prevState.day.end)) {
-      this.props.onChange(day.start, day.end);
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+    if (this.props.startDate && this.props.endDate && (prevProps.startDate !== this.props.startDate || prevProps.endDate !== this.props.endDate)) {
+      this.setState(_extends({}, this.state, {
+        day: _extends({}, this.state.day, {
+          start: this.props.startDate && moment(this.props.startDate),
+          end: this.props.endDate && moment(this.props.endDate)
+        })
+      }));
     }
   };
 
@@ -684,7 +694,19 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
       weekDays: weekDays
     }), React.createElement(Day, {
       onDateMouseOver: this.onDateMouseOver,
-      onClickDay: this.setRangeDate,
+      onClickDay: function onClickDay(day) {
+        var _range$day, _range$day$start, _range$day2, _range$day2$end;
+
+        var range = _this4.setRangeDate(day);
+
+        _this4.setState(range);
+
+        if ((range === null || range === void 0 ? void 0 : (_range$day = range.day) === null || _range$day === void 0 ? void 0 : (_range$day$start = _range$day.start) === null || _range$day$start === void 0 ? void 0 : _range$day$start.toDate()) && (range === null || range === void 0 ? void 0 : (_range$day2 = range.day) === null || _range$day2 === void 0 ? void 0 : (_range$day2$end = _range$day2.end) === null || _range$day2$end === void 0 ? void 0 : _range$day2$end.toDate())) {
+          var _range$day3, _range$day4;
+
+          _this4.props.onChange(range === null || range === void 0 ? void 0 : (_range$day3 = range.day) === null || _range$day3 === void 0 ? void 0 : _range$day3.start, range === null || range === void 0 ? void 0 : (_range$day4 = range.day) === null || _range$day4 === void 0 ? void 0 : _range$day4.end);
+        }
+      },
       weeks: weeks,
       start: day.start,
       end: day.end,

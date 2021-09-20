@@ -76,6 +76,8 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
       }
     };
 
+    let newState = {};
+
     if (datePicker) {
       this.setState({
         day: {
@@ -84,25 +86,26 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
         }
       });
     } else if (day.start === undefined && day.end === undefined) {
-      this.setState(startState);
+      newState = startState;
     } else if (day.start && day.end === undefined && date.isBefore(day.start)) {
-      this.setState(startState);
+      newState = startState;
     } else if (day.start && day.end === undefined) {
-      this.setState({
+      newState = {
         day: {
           ...day,
           end: date
         },
-      });
+      };
     } else if (day.start && day.end) {
-      this.setState({
+      newState = {
         ...startState,
         day: {
           ...startState.day,
           end: undefined
         }
-      });
+      };
     }
+    return newState;
   }
 
   onDateMouseOver(date: Moment) {
@@ -158,7 +161,7 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
   getYears() {
     const { currentDate, date } = this.state;
     const { num, focused, page } = this.state.year;
-    const currentYear = currentDate.year();
+    const currentYear = Boolean(this.props.maxYear) ? currentDate.set("year", this.props.maxYear || 0).year() :  currentDate.year();
     const targetYear = date.year();
 
     let start = currentYear - 4;
@@ -169,7 +172,12 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
       start = start - -1 * page * num;
     }
 
-    const end = start + num;
+    if (this.props.maxYear && this.props.minimumYear) {
+      start = this.props.minimumYear
+    }
+
+    const end = (this.props.maxYear && this.props.minimumYear) ? this.props.maxYear + 1: start + num;
+
 
     let years = [];
     for (start; start < end; start++) {
@@ -183,6 +191,7 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
       isYearBlocked: false,
       isFocused: year === focused
     }));
+    
     return arrayTo2DArray2(years, 4);
   }
 
@@ -260,16 +269,23 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
     });
   }
 
-  componentDidUpdate(_prevProps:any, prevState:any) {
-    const { day } = this.state;
-
-    if (day.start && day.end && (day.start !== prevState.day.start || day.end !== prevState.day.end)) {
-      this.props.onChange(day.start, day.end);
+  componentDidUpdate(prevProps: DaterangepickerProps) {
+    if (this.props.startDate && this.props.endDate &&
+      (prevProps.startDate !== this.props.startDate || prevProps.endDate !== this.props.endDate)) {
+        this.setState({
+          ...this.state,
+          day: {
+            ...this.state.day,
+            start: this.props.startDate && moment(this.props.startDate),
+            end: this.props.endDate && moment(this.props.endDate)
+          },
+        })
     }
   }
 
   dayView() {
     const { date, day } = this.state;
+    
     const weeks = this.getMonthWeeks(date.year(), date.month());
     const weekDays = weekdaysMin(this.state.startWeek, this.props.shortenWeekDays);
     const monthFormat = this.props.calendarMonthFormat ? this.props.calendarMonthFormat : "MMMM";
@@ -290,7 +306,13 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
           <TableHeader weekDays={weekDays} />
           <Day
             onDateMouseOver={this.onDateMouseOver}
-            onClickDay={this.setRangeDate}
+            onClickDay={(day: Moment) => {
+              const range: any = this.setRangeDate(day);
+              this.setState(range);
+              if (range?.day?.start?.toDate() && range?.day?.end?.toDate()) {
+                this.props.onChange(range?.day?.start, range?.day?.end);
+              }
+            }}
             weeks={weeks}
             start={day.start}
             end={day.end}

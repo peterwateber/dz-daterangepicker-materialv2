@@ -6,7 +6,7 @@ declare class Daterangepicker extends React.Component<DaterangepickerProps, Date
     private readonly currentDate;
     constructor(props: DaterangepickerProps);
     changeView(newView: Views): void;
-    setRangeDate(date: Moment): void;
+    setRangeDate(date: Moment): {};
     onDateMouseOver(date: Moment): void;
     getMonthWeeks(year: number, month: number): never[][];
     getYears(): never[][];
@@ -18,7 +18,7 @@ declare class Daterangepicker extends React.Component<DaterangepickerProps, Date
     goToNextMonths(): void;
     goToPreviousYear(): void;
     goToNextYear(): void;
-    componentDidUpdate(_prevProps: any, prevState: any): void;
+    componentDidUpdate(prevProps: DaterangepickerProps): void;
     dayView(): JSX.Element;
     yearView(): JSX.Element;
     monthView(): JSX.Element;
