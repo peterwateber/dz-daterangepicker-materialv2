@@ -79,6 +79,7 @@ function Example(){
 |minYear|will display the min year in the calendar. `maxYear` should be present|''|number
 |maxYear|will display the max year in the calendar. `minYear` should be present|''|number
 |setFocusOnEndDateMonth|if set to `true` will shift calendar focus on the ending month|false|Boolean
+|onChangeDetected|function to check all recent changes to the calendar| null | `(date: { startDate?: Date, endDate?: Date }) => void`
 
 ## Donation :beer: :beer: :beer:
 

@@ -7,41 +7,9 @@ import Button from '@material-ui/core/Button';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
 function getMonthDateRange(year, month) {
-  var startDate = moment([year, month]);
-  var endDate = moment(startDate).endOf("month");
+  const startDate = moment([year, month]);
+  const endDate = moment(startDate).endOf("month");
   return {
     start: startDate,
     end: endDate
@@ -49,9 +17,9 @@ function getMonthDateRange(year, month) {
 }
 
 function getCalendarDateRange(start, end, weekStart) {
-  var weekStartNum = start.day() || 7;
-  var weekEndNum = end.day() || 7;
-  var subtractDays = weekStartNum;
+  const weekStartNum = start.day() || 7;
+  const weekEndNum = end.day() || 7;
+  let subtractDays = weekStartNum;
 
   if (weekStart === "monday") {
     subtractDays = weekStartNum - 1;
@@ -59,8 +27,8 @@ function getCalendarDateRange(start, end, weekStart) {
     subtractDays = weekStartNum + 1;
   }
 
-  var startCalendar = start.subtract(subtractDays, "d");
-  var endCalendar = end.add(7 - weekEndNum, "d");
+  const startCalendar = start.subtract(subtractDays, "d");
+  const endCalendar = end.add(7 - weekEndNum, "d");
   return {
     startCalendar: startCalendar,
     endCalendar: endCalendar
@@ -68,10 +36,10 @@ function getCalendarDateRange(start, end, weekStart) {
 }
 
 function getRange(start, end, type) {
-  var diff = end.diff(start, type, true);
-  var range = [];
+  const diff = end.diff(start, type, true);
+  const range = [];
 
-  for (var i = 0; i < diff; i++) {
+  for (let i = 0; i < diff; i++) {
     range.push(moment(start).add(i, type));
   }
 
@@ -79,8 +47,8 @@ function getRange(start, end, type) {
 }
 
 function arrayTo2DArray2(list, howMany) {
-  var idx = 0;
-  var result = [];
+  let idx = 0;
+  const result = [];
 
   while (idx < list.length) {
     if (idx % howMany === 0) result.push([]);
@@ -91,34 +59,30 @@ function arrayTo2DArray2(list, howMany) {
 }
 
 function getMonthWeeks(year, month, weekStart) {
-  var _getMonthDateRange = getMonthDateRange(year, month),
-      start = _getMonthDateRange.start,
-      end = _getMonthDateRange.end;
-
-  var _getCalendarDateRange = getCalendarDateRange(start, end, weekStart),
-      startCalendar = _getCalendarDateRange.startCalendar,
-      endCalendar = _getCalendarDateRange.endCalendar;
-
+  const {
+    start,
+    end
+  } = getMonthDateRange(year, month);
+  const {
+    startCalendar,
+    endCalendar
+  } = getCalendarDateRange(start, end, weekStart);
   return getRange(startCalendar, endCalendar, "day");
 }
 
-function weekdaysMin(weekStart, shortenWeekDays) {
-  if (shortenWeekDays === void 0) {
-    shortenWeekDays = false;
-  }
-
-  var weekDays = !shortenWeekDays ? moment.weekdays(false) : moment.weekdaysShort(false);
+function weekdaysMin(weekStart, shortenWeekDays = false) {
+  const weekDays = !shortenWeekDays ? moment.weekdays(false) : moment.weekdaysShort(false);
 
   if (weekStart === "monday") {
-    var day = weekDays.shift();
+    const day = weekDays.shift();
 
     if (day) {
       weekDays.push(day);
     }
   } else if (weekStart === "saturday") {
-    var _day = weekDays.pop();
+    const day = weekDays.pop();
 
-    if (_day) {
+    if (day) {
       weekDays.unshift();
     }
   }
@@ -126,19 +90,17 @@ function weekdaysMin(weekStart, shortenWeekDays) {
   return weekDays;
 }
 
-var DateCompare = /*#__PURE__*/function () {
-  function DateCompare() {}
-
-  DateCompare.isSame = function isSame(date1, date2) {
+class DateCompare {
+  static isSame(date1, date2) {
     if (date1 && date2) return date1.isSame(date2, "day");
     return false;
-  };
+  }
 
-  DateCompare.isInMonth = function isInMonth(targetDate, month) {
+  static isInMonth(targetDate, month) {
     return targetDate.month() === month;
-  };
+  }
 
-  DateCompare.minMaxDate = function minMaxDate(targetDate, start, end) {
+  static minMaxDate(targetDate, start, end) {
     if (start && end) {
       return targetDate.isBetween(start, end);
     } else if (start) {
@@ -148,34 +110,31 @@ var DateCompare = /*#__PURE__*/function () {
     }
 
     return true;
-  };
+  }
 
-  DateCompare.maybeEnd = function maybeEnd(targetDate, start, end, hoveredDate) {
+  static maybeEnd(targetDate, start, end, hoveredDate) {
     if (!start || start && end) return false;
     return this.isSame(targetDate, hoveredDate) && !start.isAfter(hoveredDate, "day");
-  };
+  }
 
-  DateCompare.isBetweenMaybeEnd = function isBetweenMaybeEnd(targetDate, start, end, maybeEnd) {
-    var isSameOrBeforeEnd = targetDate.isSameOrBefore(maybeEnd, "day");
-    var isSameOrAfterStart = targetDate.isSameOrAfter(start, "day");
+  static isBetweenMaybeEnd(targetDate, start, end, maybeEnd) {
+    const isSameOrBeforeEnd = targetDate.isSameOrBefore(maybeEnd, "day");
+    const isSameOrAfterStart = targetDate.isSameOrAfter(start, "day");
     return start && !end && isSameOrAfterStart && isSameOrBeforeEnd;
-  };
+  }
 
-  DateCompare.isInRange = function isInRange(targetDate, start, end, hoveredDate) {
+  static isInRange(targetDate, start, end, hoveredDate) {
     if (start && end) {
       return targetDate.isBetween(start, end, "day");
     }
 
     return this.isBetweenMaybeEnd(targetDate, start, end, hoveredDate);
-  };
+  }
 
-  return DateCompare;
-}();
+}
 
 function Header(props) {
-  var btnIcon = function btnIcon() {
-    return props.open ? React.createElement(ArrowDropUpIcon, null) : React.createElement(ArrowDropDownIcon, null);
-  };
+  const btnIcon = () => props.open ? React.createElement(ArrowDropUpIcon, null) : React.createElement(ArrowDropDownIcon, null);
 
   return React.createElement("div", {
     className: "dz-calendar-header"
@@ -208,11 +167,9 @@ Header.defaultProps = {
 function TableHeader(props) {
   return React.createElement("thead", {
     className: "cdz-calendar__table__header"
-  }, React.createElement("tr", null, props.weekDays && props.weekDays.map(function (day, index) {
-    return React.createElement("th", {
-      key: index
-    }, day);
-  })), React.createElement("tr", null, React.createElement("th", {
+  }, React.createElement("tr", null, props.weekDays && props.weekDays.map((day, index) => React.createElement("th", {
+    key: index
+  }, day))), React.createElement("tr", null, React.createElement("th", {
     "aria-hidden": "true",
     className: "dz-calendar__table__header__divider",
     colSpan: 7
@@ -228,148 +185,132 @@ function Content(props) {
 }
 
 function Year(props) {
-  var cellClassName = function cellClassName(year) {
-    var mainClass = "dz-calendar__table__body__cell";
-    var className = [mainClass];
+  const cellClassName = year => {
+    const mainClass = "dz-calendar__table__body__cell";
+    const className = [mainClass];
 
     if (year.isCurrentYear) {
-      className.push(mainClass + "--today");
+      className.push(`${mainClass}--today`);
     }
 
     if (year.selected) {
-      className.push(mainClass + "--active");
+      className.push(`${mainClass}--active`);
     }
 
     return className.join(" ");
   };
 
-  var tabIndex = function tabIndex(year) {
+  const tabIndex = year => {
     return year.isCurrentYear ? 1 : 0;
   };
 
   return React.createElement("tbody", {
     className: "dz-calendar__table__body"
-  }, props.rows.map(function (week, index) {
-    return React.createElement("tr", {
-      key: index,
-      className: "dz-calendar-table-body-week"
-    }, week.map(function (year, index) {
-      return React.createElement("td", {
-        className: cellClassName(year),
-        onMouseUp: function onMouseUp(e) {
-          return props.onClickYear(e, year.year);
-        },
-        key: index,
-        tabIndex: tabIndex(year)
-      }, React.createElement("div", {
-        className: "dz-calendar__table__body__cell__content year-content"
-      }, year.year));
-    }));
-  }));
+  }, props.rows.map((week, index) => React.createElement("tr", {
+    key: index,
+    className: "dz-calendar-table-body-week"
+  }, week.map((year, index) => React.createElement("td", {
+    className: cellClassName(year),
+    onMouseUp: e => props.onClickYear(e, year.year),
+    key: index,
+    tabIndex: tabIndex(year)
+  }, React.createElement("div", {
+    className: "dz-calendar__table__body__cell__content year-content"
+  }, year.year))))));
 }
 
 function Month(props) {
-  var cellClassName = function cellClassName(month) {
-    var mainClass = "dz-calendar__table__body__cell";
-    var className = [mainClass];
+  const cellClassName = month => {
+    const mainClass = "dz-calendar__table__body__cell";
+    const className = [mainClass];
 
     if (month.isCurrentMonth) {
-      className.push(mainClass + "--today");
+      className.push(`${mainClass}--today`);
     }
 
     if (month.selected) {
-      className.push(mainClass + "--active");
+      className.push(`${mainClass}--active`);
     }
 
     return className.join(" ");
   };
 
-  var tabIndex = function tabIndex(month) {
+  const tabIndex = month => {
     return month.isCurrentMonth ? 1 : 0;
   };
 
   return React.createElement("tbody", {
     className: "dz-calendar__table__body"
-  }, props.rows.map(function (month, index) {
-    return React.createElement("tr", {
-      key: index,
-      className: "dz-calendar-table-body-month"
-    }, month.map(function (month, index) {
-      return React.createElement("td", {
-        className: cellClassName(month),
-        onMouseUp: function onMouseUp(e) {
-          return props.onClickMonth(e, month.monthNum);
-        },
-        key: index,
-        tabIndex: tabIndex(month)
-      }, React.createElement("div", {
-        className: "dz-calendar__table__body__cell__content month-content"
-      }, month.monthName));
-    }));
-  }));
+  }, props.rows.map((month, index) => React.createElement("tr", {
+    key: index,
+    className: "dz-calendar-table-body-month"
+  }, month.map((month, index) => React.createElement("td", {
+    className: cellClassName(month),
+    onMouseUp: e => props.onClickMonth(e, month.monthNum),
+    key: index,
+    tabIndex: tabIndex(month)
+  }, React.createElement("div", {
+    className: "dz-calendar__table__body__cell__content month-content"
+  }, month.monthName))))));
 }
 
-var Day = function Day(props) {
-  var cellClassName = function cellClassName(day) {
-    var mainClass = "dz-calendar__table__body__cell";
-    var className = [mainClass];
+const Day = props => {
+  const cellClassName = day => {
+    const mainClass = "dz-calendar__table__body__cell";
+    const className = [mainClass];
 
     if (day.isInRange && !(day.isStart || day.isEnd)) {
-      className.push(mainClass + "--semi-selected");
+      className.push(`${mainClass}--semi-selected`);
     }
 
     if (day.isStart) {
-      className.push(mainClass + "--begin-range");
+      className.push(`${mainClass}--begin-range`);
     }
 
     if (day.isEnd || day.maybeEnd) {
-      className.push(mainClass + "--end-range");
+      className.push(`${mainClass}--end-range`);
     }
 
     if (!day.isInMonth || day.isDisabled) {
       if (props.showOnlyDaysInMonths) {
-        className.push(mainClass + "--hidden");
+        className.push(`${mainClass}--hidden`);
       }
 
-      className.push(mainClass + "--disabled");
+      className.push(`${mainClass}--disabled`);
       return className.join(" ");
     }
 
     if (props.disableFuture && day.date.isAfter(new Date())) {
-      className.push(mainClass + "--disabled");
+      className.push(`${mainClass}--disabled`);
       return className.join(" ");
     }
 
     if (day.isHovered) {
-      className.push(mainClass + "--hover");
+      className.push(`${mainClass}--hover`);
     }
 
     if (day.isCurrentDate) {
-      className.push(mainClass + "--today");
+      className.push(`${mainClass}--today`);
     }
 
     if (day.maybeEnd) {
-      className.push(mainClass + "--maybe-end");
+      className.push(`${mainClass}--maybe-end`);
     }
 
     return className.join(" ");
   };
 
-  var tabIndex = function tabIndex(day) {
+  const tabIndex = day => {
     return day.isCurrentDate ? 1 : 0;
   };
 
-  var getDayProps = function getDayProps(day) {
+  const getDayProps = day => {
     if (props.disableFuture && day.date.isAfter(new Date())) return {};
 
     if (day.isInMonth && !day.isDisabled) {
       return {
-        onMouseUp: function onMouseUp() {
-          return props.onClickDay(day.date);
-        },
-        onMouseOver: function onMouseOver() {
-          return props.onDateMouseOver(day.date);
-        }
+        onMouseUp: () => props.onClickDay(day.date),
+        onMouseOver: () => props.onDateMouseOver(day.date)
       };
     }
 
@@ -378,20 +319,16 @@ var Day = function Day(props) {
 
   return React.createElement("tbody", {
     className: "dz-calendar__table__body"
-  }, props.weeks.map(function (week, index) {
-    return React.createElement("tr", {
-      key: index,
-      className: "dz-calendar-table-body-week"
-    }, week.map(function (day, index) {
-      return React.createElement("td", Object.assign({
-        key: index,
-        className: cellClassName(day),
-        tabIndex: tabIndex(day)
-      }, getDayProps(day)), React.createElement("div", {
-        className: "dz-calendar__table__body__cell__content"
-      }, day.date.date()));
-    }));
-  }));
+  }, props.weeks.map((week, index) => React.createElement("tr", {
+    key: index,
+    className: "dz-calendar-table-body-week"
+  }, week.map((day, index) => React.createElement("td", Object.assign({
+    key: index,
+    className: cellClassName(day),
+    tabIndex: tabIndex(day)
+  }, getDayProps(day)), React.createElement("div", {
+    className: "dz-calendar__table__body__cell__content"
+  }, day.date.date()))))));
 };
 
 var Views;
@@ -402,23 +339,21 @@ var Views;
   Views[Views["year"] = 2] = "year";
 })(Views || (Views = {}));
 
-var Daterangepicker = /*#__PURE__*/function (_React$Component) {
-  _inheritsLoose(Daterangepicker, _React$Component);
-
-  function Daterangepicker(props) {
-    var _this;
-
-    _this = _React$Component.call(this, props) || this;
+class Daterangepicker extends React.Component {
+  constructor(props) {
+    super(props);
     moment.locale(props.locale || "en");
-    var startDate = props.startDate,
-        endDate = props.endDate,
-        minDate = props.minDate,
-        maxDate = props.maxDate;
-    _this.currentDate = moment().startOf("day");
-    var date = moment(endDate || _this.currentDate);
-    _this.state = {
+    const {
+      startDate,
+      endDate,
+      minDate,
+      maxDate
+    } = props;
+    this.currentDate = moment().startOf("day");
+    const date = moment(endDate || this.currentDate);
+    this.state = {
       datePicker: props.datePicker || false,
-      currentDate: _this.currentDate,
+      currentDate: this.currentDate,
       date: date,
       activeView: Views.day,
       startWeek: props.startWeek || "monday",
@@ -439,39 +374,37 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
         end: endDate && moment(endDate),
         min: minDate && moment(minDate),
         max: maxDate && moment(maxDate),
-        hoveredDate: _this.currentDate
+        hoveredDate: this.currentDate
       }
     };
-    _this.goToPreviousMonths = _this.goToPreviousMonths.bind(_assertThisInitialized(_this));
-    _this.goToNextMonths = _this.goToNextMonths.bind(_assertThisInitialized(_this));
-    _this.goToPreviousYear = _this.goToPreviousYear.bind(_assertThisInitialized(_this));
-    _this.goToNextYear = _this.goToNextYear.bind(_assertThisInitialized(_this));
-    _this.setRangeDate = _this.setRangeDate.bind(_assertThisInitialized(_this));
-    _this.onDateMouseOver = _this.onDateMouseOver.bind(_assertThisInitialized(_this));
-    _this.changeView = _this.changeView.bind(_assertThisInitialized(_this));
-    _this.setYear = _this.setYear.bind(_assertThisInitialized(_this));
-    _this.setMonth = _this.setMonth.bind(_assertThisInitialized(_this));
-    return _this;
+    this.goToPreviousMonths = this.goToPreviousMonths.bind(this);
+    this.goToNextMonths = this.goToNextMonths.bind(this);
+    this.goToPreviousYear = this.goToPreviousYear.bind(this);
+    this.goToNextYear = this.goToNextYear.bind(this);
+    this.setRangeDate = this.setRangeDate.bind(this);
+    this.onDateMouseOver = this.onDateMouseOver.bind(this);
+    this.changeView = this.changeView.bind(this);
+    this.setYear = this.setYear.bind(this);
+    this.setMonth = this.setMonth.bind(this);
   }
 
-  var _proto = Daterangepicker.prototype;
-
-  _proto.changeView = function changeView(newView) {
+  changeView(newView) {
     this.setState({
       activeView: newView
     });
-  };
+  }
 
-  _proto.setRangeDate = function setRangeDate(date) {
-    var _this$state = this.state,
-        day = _this$state.day,
-        datePicker = _this$state.datePicker;
-    var startState = {
-      day: _extends({}, day, {
+  setRangeDate(date) {
+    const {
+      day,
+      datePicker
+    } = this.state;
+    const startState = {
+      day: { ...day,
         start: date
-      })
+      }
     };
-    var newState = {};
+    let newState = {};
 
     if (datePicker) {
       this.setState({
@@ -486,67 +419,68 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
       newState = startState;
     } else if (day.start && day.end === undefined) {
       newState = {
-        day: _extends({}, day, {
+        day: { ...day,
           end: date
-        })
+        }
       };
     } else if (day.start && day.end) {
-      newState = _extends({}, startState, {
-        day: _extends({}, startState.day, {
+      newState = { ...startState,
+        day: { ...startState.day,
           end: undefined
-        })
-      });
+        }
+      };
     }
 
     return newState;
-  };
+  }
 
-  _proto.onDateMouseOver = function onDateMouseOver(date) {
-    var day = this.state.day;
-    var isSame = DateCompare.isSame(date, day.hoveredDate);
+  onDateMouseOver(date) {
+    const {
+      day
+    } = this.state;
+    const isSame = DateCompare.isSame(date, day.hoveredDate);
     if (isSame) return;
     if (this.props.disableFuture && date.isAfter(new Date())) return;
-    this.setState(_extends({}, this.state, {
-      day: _extends({}, day, {
+    this.setState({ ...this.state,
+      day: { ...day,
         hoveredDate: date
-      })
-    }));
-  };
-
-  _proto.getMonthWeeks = function getMonthWeeks$1(year, month) {
-    var _this$state2 = this.state,
-        day = _this$state2.day,
-        currentDate = _this$state2.currentDate;
-
-    var weeks = getMonthWeeks(year, month, this.state.startWeek);
-
-    var weeksDays = weeks.map(function (date) {
-      return {
-        date: date,
-        isCurrentDate: DateCompare.isSame(date, currentDate),
-        isInRange: DateCompare.isInRange(date, day.start, day.end, day.hoveredDate),
-        isDisabled: !DateCompare.minMaxDate(date, day.min, day.max),
-        isInMonth: DateCompare.isInMonth(date, month),
-        isStart: DateCompare.isSame(date, day.start),
-        isEnd: DateCompare.isSame(date, day.end),
-        maybeEnd: DateCompare.maybeEnd(date, day.start, day.end, day.hoveredDate),
-        isHovered: DateCompare.isSame(date, day.hoveredDate)
-      };
+      }
     });
-    return arrayTo2DArray2(weeksDays, 7);
-  };
+  }
 
-  _proto.getYears = function getYears() {
-    var _this$state3 = this.state,
-        currentDate = _this$state3.currentDate,
-        date = _this$state3.date;
-    var _this$state$year = this.state.year,
-        num = _this$state$year.num,
-        focused = _this$state$year.focused,
-        page = _this$state$year.page;
-    var currentYear = Boolean(this.props.maxYear) ? currentDate.set("year", this.props.maxYear || 0).year() : currentDate.year();
-    var targetYear = date.year();
-    var start = currentYear - 4;
+  getMonthWeeks(year, month) {
+    const {
+      day,
+      currentDate
+    } = this.state;
+    let weeks = getMonthWeeks(year, month, this.state.startWeek);
+    let weeksDays = weeks.map(date => ({
+      date: date,
+      isCurrentDate: DateCompare.isSame(date, currentDate),
+      isInRange: DateCompare.isInRange(date, day.start, day.end, day.hoveredDate),
+      isDisabled: !DateCompare.minMaxDate(date, day.min, day.max),
+      isInMonth: DateCompare.isInMonth(date, month),
+      isStart: DateCompare.isSame(date, day.start),
+      isEnd: DateCompare.isSame(date, day.end),
+      maybeEnd: DateCompare.maybeEnd(date, day.start, day.end, day.hoveredDate),
+      isHovered: DateCompare.isSame(date, day.hoveredDate)
+    }));
+    return arrayTo2DArray2(weeksDays, 7);
+  }
+
+  getYears() {
+    const {
+      currentDate,
+      date
+    } = this.state;
+    const {
+      num,
+      focused,
+      page
+    } = this.state.year;
+    const currentYear = Boolean(this.props.maxYear) ? currentDate.set("year", this.props.maxYear || 0).year() : currentDate.year();
+    const targetYear = date.year();
+    let start = currentYear - 4;
 
     if (page > 0) {
       start = start + page * num;
@@ -558,130 +492,116 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
       start = this.props.minimumYear;
     }
 
-    var end = this.props.maxYear && this.props.minimumYear ? this.props.maxYear + 1 : start + num;
-    var years = [];
+    const end = this.props.maxYear && this.props.minimumYear ? this.props.maxYear + 1 : start + num;
+    let years = [];
 
     for (start; start < end; start++) {
       years.push(start);
     }
 
-    years = years.map(function (year) {
-      return {
-        year: year,
-        selected: year === targetYear,
-        isCurrentYear: year === currentYear,
-        isYearBlocked: false,
-        isFocused: year === focused
-      };
-    });
+    years = years.map(year => ({
+      year: year,
+      selected: year === targetYear,
+      isCurrentYear: year === currentYear,
+      isYearBlocked: false,
+      isFocused: year === focused
+    }));
     return arrayTo2DArray2(years, 4);
-  };
+  }
 
-  _proto.getMonths = function getMonths() {
-    var _this$state4 = this.state,
-        currentDate = _this$state4.currentDate,
-        date = _this$state4.date;
-    var currentMonth = currentDate.month();
-    var targetMonth = date.month();
-    var focused = this.state.month.focused;
-    var months = moment.monthsShort().map(function (month, monthNum) {
-      return {
-        monthNum: monthNum,
-        monthName: month,
-        selected: monthNum === targetMonth,
-        isCurrentMonth: monthNum === currentMonth,
-        isMonthBlocked: false,
-        isFocused: monthNum === focused
-      };
-    });
+  getMonths() {
+    const {
+      currentDate,
+      date
+    } = this.state;
+    const currentMonth = currentDate.month();
+    const targetMonth = date.month();
+    const {
+      focused
+    } = this.state.month;
+    const months = moment.monthsShort().map((month, monthNum) => ({
+      monthNum: monthNum,
+      monthName: month,
+      selected: monthNum === targetMonth,
+      isCurrentMonth: monthNum === currentMonth,
+      isMonthBlocked: false,
+      isFocused: monthNum === focused
+    }));
     return arrayTo2DArray2(months, 4);
-  };
+  }
 
-  _proto.setYear = function setYear(_e, year) {
-    var _this2 = this;
-
-    var newDate = this.state.date.year(year);
+  setYear(_e, year) {
+    const newDate = this.state.date.year(year);
     this.setState({
       date: newDate
-    }, function () {
-      return _this2.changeView(Views.month);
-    });
-  };
+    }, () => this.changeView(Views.month));
+  }
 
-  _proto.setMonth = function setMonth(_e, month) {
-    var _this3 = this;
-
-    var newDate = this.state.date.month(month);
+  setMonth(_e, month) {
+    const newDate = this.state.date.month(month);
     this.setState({
       date: newDate
-    }, function () {
-      return _this3.changeView(Views.day);
-    });
-  };
+    }, () => this.changeView(Views.day));
+  }
 
-  _proto.changeYearPage = function changeYearPage(nextPage) {
-    if (nextPage === void 0) {
-      nextPage = true;
-    }
-
-    var year = this.state.year;
+  changeYearPage(nextPage = true) {
+    const {
+      year
+    } = this.state;
     this.setState({
-      year: _extends({}, year, {
+      year: { ...year,
         page: nextPage ? year.page + 1 : year.page - 1
-      })
+      }
     });
-  };
+  }
 
-  _proto.goToPreviousMonths = function goToPreviousMonths() {
+  goToPreviousMonths() {
     this.setState({
       date: this.state.date.subtract(1, "M")
     });
-  };
+  }
 
-  _proto.goToNextMonths = function goToNextMonths() {
+  goToNextMonths() {
     this.setState({
       date: this.state.date.add(1, "M")
     });
-  };
+  }
 
-  _proto.goToPreviousYear = function goToPreviousYear() {
+  goToPreviousYear() {
     this.setState({
       date: this.state.date.subtract(1, "y")
     });
-  };
+  }
 
-  _proto.goToNextYear = function goToNextYear() {
+  goToNextYear() {
     this.setState({
       date: this.state.date.add(1, "y")
     });
-  };
+  }
 
-  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.startDate && this.props.endDate && (prevProps.startDate !== this.props.startDate || prevProps.endDate !== this.props.endDate)) {
-      this.setState(_extends({}, this.state, {
+      this.setState({ ...this.state,
         date: this.props.setFocusOnEndDateMonth ? moment(this.props.endDate) : this.state.date,
-        day: _extends({}, this.state.day, {
+        day: { ...this.state.day,
           start: this.props.startDate && moment(this.props.startDate),
           end: this.props.endDate && moment(this.props.endDate)
-        })
-      }));
+        }
+      });
     }
-  };
+  }
 
-  _proto.dayView = function dayView() {
-    var _this4 = this;
+  dayView() {
+    const {
+      date,
+      day
+    } = this.state;
+    const weeks = this.getMonthWeeks(date.year(), date.month());
+    const weekDays = weekdaysMin(this.state.startWeek, this.props.shortenWeekDays);
+    const monthFormat = this.props.calendarMonthFormat ? this.props.calendarMonthFormat : "MMMM";
+    const calendarTextDisplay = `${date.format(monthFormat)} ${date.year()}`;
 
-    var _this$state5 = this.state,
-        date = _this$state5.date,
-        day = _this$state5.day;
-    var weeks = this.getMonthWeeks(date.year(), date.month());
-    var weekDays = weekdaysMin(this.state.startWeek, this.props.shortenWeekDays);
-    var monthFormat = this.props.calendarMonthFormat ? this.props.calendarMonthFormat : "MMMM";
-    var calendarTextDisplay = date.format(monthFormat) + " " + date.year();
-
-    var changeView = function changeView() {
-      return _this4.changeView(Views.year);
-    };
+    const changeView = () => this.changeView(Views.year);
 
     return React.createElement(React.Fragment, null, React.createElement(Header, {
       goToPrevious: this.goToPreviousMonths,
@@ -693,17 +613,20 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
       weekDays: weekDays
     }), React.createElement(Day, {
       onDateMouseOver: this.onDateMouseOver,
-      onClickDay: function onClickDay(day) {
-        var _range$day, _range$day$start, _range$day2, _range$day2$end;
+      onClickDay: day => {
+        var _range$day, _range$day$start, _range$day2, _range$day2$end, _range$day3, _range$day3$start, _range$day4, _range$day4$end;
 
-        var range = _this4.setRangeDate(day);
+        const range = this.setRangeDate(day);
+        this.setState(range);
+        this.props.onChangeDetected && this.props.onChangeDetected({
+          startDate: range === null || range === void 0 ? void 0 : (_range$day = range.day) === null || _range$day === void 0 ? void 0 : (_range$day$start = _range$day.start) === null || _range$day$start === void 0 ? void 0 : _range$day$start.toDate(),
+          endDate: range === null || range === void 0 ? void 0 : (_range$day2 = range.day) === null || _range$day2 === void 0 ? void 0 : (_range$day2$end = _range$day2.end) === null || _range$day2$end === void 0 ? void 0 : _range$day2$end.toDate()
+        });
 
-        _this4.setState(range);
+        if ((range === null || range === void 0 ? void 0 : (_range$day3 = range.day) === null || _range$day3 === void 0 ? void 0 : (_range$day3$start = _range$day3.start) === null || _range$day3$start === void 0 ? void 0 : _range$day3$start.toDate()) && (range === null || range === void 0 ? void 0 : (_range$day4 = range.day) === null || _range$day4 === void 0 ? void 0 : (_range$day4$end = _range$day4.end) === null || _range$day4$end === void 0 ? void 0 : _range$day4$end.toDate())) {
+          var _range$day5, _range$day6;
 
-        if ((range === null || range === void 0 ? void 0 : (_range$day = range.day) === null || _range$day === void 0 ? void 0 : (_range$day$start = _range$day.start) === null || _range$day$start === void 0 ? void 0 : _range$day$start.toDate()) && (range === null || range === void 0 ? void 0 : (_range$day2 = range.day) === null || _range$day2 === void 0 ? void 0 : (_range$day2$end = _range$day2.end) === null || _range$day2$end === void 0 ? void 0 : _range$day2$end.toDate())) {
-          var _range$day3, _range$day4;
-
-          _this4.props.onChange(range === null || range === void 0 ? void 0 : (_range$day3 = range.day) === null || _range$day3 === void 0 ? void 0 : _range$day3.start, range === null || range === void 0 ? void 0 : (_range$day4 = range.day) === null || _range$day4 === void 0 ? void 0 : _range$day4.end);
+          this.props.onChange(range === null || range === void 0 ? void 0 : (_range$day5 = range.day) === null || _range$day5 === void 0 ? void 0 : _range$day5.start, range === null || range === void 0 ? void 0 : (_range$day6 = range.day) === null || _range$day6 === void 0 ? void 0 : _range$day6.end);
         }
       },
       weeks: weeks,
@@ -712,26 +635,20 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
       showOnlyDaysInMonths: this.props.showOnlyDaysInMonths,
       disableFuture: this.props.disableFuture
     })));
-  };
+  }
 
-  _proto.yearView = function yearView() {
-    var _this5 = this;
+  yearView() {
+    const {
+      date
+    } = this.state;
+    const btnText = `${date.format("YYYY")}`;
+    const rows = this.getYears();
 
-    var date = this.state.date;
-    var btnText = "" + date.format("YYYY");
-    var rows = this.getYears();
+    const changeView = () => this.changeView(Views.day);
 
-    var changeView = function changeView() {
-      return _this5.changeView(Views.day);
-    };
+    const nextPage = () => this.changeYearPage(true);
 
-    var nextPage = function nextPage() {
-      return _this5.changeYearPage(true);
-    };
-
-    var previousPage = function previousPage() {
-      return _this5.changeYearPage(false);
-    };
+    const previousPage = () => this.changeYearPage(false);
 
     return React.createElement(React.Fragment, null, React.createElement(Header, {
       goToPrevious: previousPage,
@@ -743,26 +660,30 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
       onClickYear: this.setYear,
       rows: rows
     })));
-  };
+  }
 
-  _proto.monthView = function monthView() {
-    var date = this.state.date;
-    var months = this.getMonths();
+  monthView() {
+    const {
+      date
+    } = this.state;
+    const months = this.getMonths();
     return React.createElement(React.Fragment, null, React.createElement(Header, {
       goToPrevious: this.goToPreviousYear,
       goToNext: this.goToNextYear,
       changeView: this.changeView,
-      btnText: "" + date.format("YYYY"),
+      btnText: `${date.format("YYYY")}`,
       open: true
     }), React.createElement(Content, null, React.createElement(TableHeader, null), React.createElement(Month, {
       onClickMonth: this.setMonth,
       rows: months
     })));
-  };
+  }
 
-  _proto.render = function render() {
-    var activeView = this.state.activeView;
-    var view = this.dayView();
+  render() {
+    const {
+      activeView
+    } = this.state;
+    let view = this.dayView();
 
     if (activeView === Views.year) {
       view = this.yearView();
@@ -773,10 +694,9 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
     return React.createElement("div", Object.assign({
       className: "dz-calendar"
     }, this.props.wrapperProps), view);
-  };
+  }
 
-  return Daterangepicker;
-}(React.Component);
+}
 
 export default Daterangepicker;
 //# sourceMappingURL=index.modern.js.map

@@ -310,6 +310,10 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
             onClickDay={(day: Moment) => {
               const range: any = this.setRangeDate(day);
               this.setState(range);
+              this.props.onChangeDetected && this.props.onChangeDetected({
+                startDate: range?.day?.start?.toDate(),
+                endDate: range?.day?.end?.toDate()
+              })
               if (range?.day?.start?.toDate() && range?.day?.end?.toDate()) {
                 this.props.onChange(range?.day?.start, range?.day?.end);
               }

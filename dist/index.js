@@ -696,16 +696,21 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
     }), React.createElement(Day, {
       onDateMouseOver: this.onDateMouseOver,
       onClickDay: function onClickDay(day) {
-        var _range$day, _range$day$start, _range$day2, _range$day2$end;
+        var _range$day, _range$day$start, _range$day2, _range$day2$end, _range$day3, _range$day3$start, _range$day4, _range$day4$end;
 
         var range = _this4.setRangeDate(day);
 
         _this4.setState(range);
 
-        if ((range === null || range === void 0 ? void 0 : (_range$day = range.day) === null || _range$day === void 0 ? void 0 : (_range$day$start = _range$day.start) === null || _range$day$start === void 0 ? void 0 : _range$day$start.toDate()) && (range === null || range === void 0 ? void 0 : (_range$day2 = range.day) === null || _range$day2 === void 0 ? void 0 : (_range$day2$end = _range$day2.end) === null || _range$day2$end === void 0 ? void 0 : _range$day2$end.toDate())) {
-          var _range$day3, _range$day4;
+        _this4.props.onChangeDetected && _this4.props.onChangeDetected({
+          startDate: range === null || range === void 0 ? void 0 : (_range$day = range.day) === null || _range$day === void 0 ? void 0 : (_range$day$start = _range$day.start) === null || _range$day$start === void 0 ? void 0 : _range$day$start.toDate(),
+          endDate: range === null || range === void 0 ? void 0 : (_range$day2 = range.day) === null || _range$day2 === void 0 ? void 0 : (_range$day2$end = _range$day2.end) === null || _range$day2$end === void 0 ? void 0 : _range$day2$end.toDate()
+        });
 
-          _this4.props.onChange(range === null || range === void 0 ? void 0 : (_range$day3 = range.day) === null || _range$day3 === void 0 ? void 0 : _range$day3.start, range === null || range === void 0 ? void 0 : (_range$day4 = range.day) === null || _range$day4 === void 0 ? void 0 : _range$day4.end);
+        if ((range === null || range === void 0 ? void 0 : (_range$day3 = range.day) === null || _range$day3 === void 0 ? void 0 : (_range$day3$start = _range$day3.start) === null || _range$day3$start === void 0 ? void 0 : _range$day3$start.toDate()) && (range === null || range === void 0 ? void 0 : (_range$day4 = range.day) === null || _range$day4 === void 0 ? void 0 : (_range$day4$end = _range$day4.end) === null || _range$day4$end === void 0 ? void 0 : _range$day4$end.toDate())) {
+          var _range$day5, _range$day6;
+
+          _this4.props.onChange(range === null || range === void 0 ? void 0 : (_range$day5 = range.day) === null || _range$day5 === void 0 ? void 0 : _range$day5.start, range === null || range === void 0 ? void 0 : (_range$day6 = range.day) === null || _range$day6 === void 0 ? void 0 : _range$day6.end);
         }
       },
       weeks: weeks,

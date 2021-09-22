@@ -13,6 +13,7 @@ interface DaterangepickerProps {
     startDate?: Moment | Date
     endDate?: Moment | Date
     onChange: any
+    onChangeDetected?: (calendateDateRange: { startDate?: Date, endDate?: Date }) => void
     startWeek?: StartWeekType
     datePicker: boolean
     locale: string

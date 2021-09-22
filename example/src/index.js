@@ -29,6 +29,8 @@ function DateRangePickerView() {
     });
   };
 
+  const onChangeDetected = (date) => {}
+
   const handleClick = () => {
     onChange(new Date(2015, 1, 1), new Date(2015, 9, 2));
   };
@@ -61,6 +63,7 @@ function DateRangePickerView() {
           endDate={date.endDate}
           datePicker={false}
           onChange={onChange}
+          onChangeDetected={onChangeDetected}
           locale={"de"}
           startWeek={"monday"} //monday|saturday|sunday
         />
