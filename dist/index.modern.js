@@ -580,7 +580,7 @@ class Daterangepicker extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.startDate && this.props.endDate && (prevProps.startDate !== this.props.startDate || prevProps.endDate !== this.props.endDate)) {
+    if (prevProps.startDate !== this.props.startDate || prevProps.endDate !== this.props.endDate) {
       this.setState({ ...this.state,
         date: this.props.setFocusOnEndDateMonth ? moment(this.props.endDate) : this.state.date,
         day: { ...this.state.day,

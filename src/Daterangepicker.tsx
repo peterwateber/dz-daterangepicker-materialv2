@@ -270,17 +270,16 @@ class Daterangepicker extends React.Component<DaterangepickerProps, Daterangepic
   }
 
   componentDidUpdate(prevProps: DaterangepickerProps) {
-    if (this.props.startDate && this.props.endDate &&
-      (prevProps.startDate !== this.props.startDate || prevProps.endDate !== this.props.endDate)) {
-        this.setState({
-          ...this.state,
-          date: this.props.setFocusOnEndDateMonth ? moment(this.props.endDate) : this.state.date,
-          day: {
-            ...this.state.day,
-            start: this.props.startDate && moment(this.props.startDate),
-            end: this.props.endDate && moment(this.props.endDate)
-          },
-        })
+    if ((prevProps.startDate !== this.props.startDate || prevProps.endDate !== this.props.endDate)) {
+      this.setState({
+        ...this.state,
+        date: this.props.setFocusOnEndDateMonth ? moment(this.props.endDate) : this.state.date,
+        day: {
+          ...this.state.day,
+          start: this.props.startDate && moment(this.props.startDate),
+          end: this.props.endDate && moment(this.props.endDate)
+        },
+      })
     }
   }
 

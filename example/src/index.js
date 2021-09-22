@@ -31,6 +31,10 @@ function DateRangePickerView() {
 
   const onChangeDetected = (date) => {}
 
+  const unsetClick = () => {
+    setDate({});
+  }
+
   const handleClick = () => {
     onChange(new Date(2015, 1, 1), new Date(2015, 9, 2));
   };
@@ -38,6 +42,8 @@ function DateRangePickerView() {
   return (
     <div style={myStyle.wrap}>
       <button onClick={handleClick}>Load from server</button>
+      <br />
+      <button onClick={unsetClick}>Unset</button>
       <h4>
         Start date:&nbsp;
         <span style={myStyle.date}>
