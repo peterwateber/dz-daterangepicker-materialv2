@@ -1,10 +1,8 @@
-# dz-daterangepicker-material
-
-[![NPM](https://img.shields.io/npm/v/dz-daterangepicker-material.svg)](https://www.npmjs.com/package/dz-daterangepicker-material) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+# dz-daterangepicker-material-v2
 
 ## V2 of Dz Daterangepicker [Material](https://material.io/design/introduction/).
 
-This [React](https://reactjs.org/) date range picker component creates a dropdown menu from which a user can select a range of dates.It leverages moment.js to handle date manipulation and parsing. I created it while building my personal projects where i used [Material UI](https://material-ui.com) and  needed a way to select date ranges.
+[Forked Project](https://github.com/dzheyhan/dz-daterangepicker-material) and introduced new Props.
 
 ## Install
 
@@ -14,9 +12,10 @@ npm i --s dz-daterangepicker-materialv2
 
 ## Demo
 
-Minimal demo page is included in sample directory.
+Minimal demo page is included in sample directory. 
 
-
+To run: 
+> cd example/ && npm i && npm start
 
 #### Note: This is the old demo version. Some new features are not here
 [Online demo](https://codesandbox.io/s/sad-pine-17zyi) is also available!
@@ -79,6 +78,7 @@ function Example(){
 |showOnlyDaysInMonths|will display only days applicable for the current month|false|Boolean
 |minYear|will display the min year in the calendar. `maxYear` should be present|''|number
 |maxYear|will display the max year in the calendar. `minYear` should be present|''|number
+|setFocusOnEndDateMonth|if set to `true` will shift calendar focus on the ending month|false|Boolean
 
 ## Donation :beer: :beer: :beer:
 

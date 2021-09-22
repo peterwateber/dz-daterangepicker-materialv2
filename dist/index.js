@@ -661,6 +661,7 @@ var Daterangepicker = /*#__PURE__*/function (_React$Component) {
   _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
     if (this.props.startDate && this.props.endDate && (prevProps.startDate !== this.props.startDate || prevProps.endDate !== this.props.endDate)) {
       this.setState(_extends({}, this.state, {
+        date: this.props.setFocusOnEndDateMonth ? moment(this.props.endDate) : this.state.date,
         day: _extends({}, this.state.day, {
           start: this.props.startDate && moment(this.props.startDate),
           end: this.props.endDate && moment(this.props.endDate)

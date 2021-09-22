@@ -24,8 +24,9 @@ interface DaterangepickerProps {
     shortenWeekDays?: boolean
     calendarMonthFormat?: "M" | "Mo" | "MM" | "MMM" | "MMMM"
     minimumYear?: number
-    maxYear?: number,
+    maxYear?: number
     numberOfYears?: number
+    setFocusOnEndDateMonth?: boolean
 }
 
 interface DaterangepickerState {

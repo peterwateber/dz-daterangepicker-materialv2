@@ -30,22 +30,7 @@ function DateRangePickerView() {
   };
 
   const handleClick = () => {
-    onChange(new Date(2000, 1, 1), new Date());
-    ReactDOM.unmountComponentAtNode(document.getElementById("test"));
-    // ReactDOM.render(
-    //   <DateRangePicker
-    //     showOnlyDaysInMonths
-    //     disableFuture
-    //     shortenWeekDays
-    //     startDate={date.startDate}
-    //     endDate={date.endDate}
-    //     datePicker={false}
-    //     onChange={onChange}
-    //     locale={"de"}
-    //     startWeek={"monday"} //monday|saturday|sunday
-    //   />,
-    //   document.getElementById("test")
-    // );
+    onChange(new Date(2015, 1, 1), new Date(2015, 9, 2));
   };
 
   return (
@@ -66,6 +51,7 @@ function DateRangePickerView() {
 
       <div id="test">
         <DateRangePicker
+          setFocusOnEndDateMonth
           showOnlyDaysInMonths
           disableFuture
           shortenWeekDays

@@ -23,6 +23,7 @@ interface DaterangepickerProps {
     minimumYear?: number;
     maxYear?: number;
     numberOfYears?: number;
+    setFocusOnEndDateMonth?: boolean;
 }
 interface DaterangepickerState {
     datePicker: boolean;
